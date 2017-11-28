@@ -84,7 +84,6 @@ class BurpExtender(IBurpExtender, IScannerCheck):
 
         #print("Found - "+str(self._helpers.analyzeRequest(baseRequestResponse).getUrl()))
 
-        # report
         return issues
 
     def consolidateDuplicateIssues(self, existingIssue, newIssue):
@@ -93,7 +92,6 @@ class BurpExtender(IBurpExtender, IScannerCheck):
 
         return 0
 
-# class implementing IScanIssue to hold our custom scan issue details
 class CustomScanIssue (IScanIssue):
     def __init__(self, httpService, url, httpMessages, name, detail, background, remediationBackground, severity, confidence):
         self._httpService = httpService

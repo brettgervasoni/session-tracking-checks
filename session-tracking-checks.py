@@ -74,7 +74,10 @@ class BurpExtender(IBurpExtender, IScannerCheck):
                     [self._callbacks.applyMarkers(baseRequestResponse, None, matches)],
                     "Session tracking include",
                     "Scripts were included from the following domain: " + source,
-                    "Low"))
+                    "The included scripts could be used to perform session replay attacks, and leak sensitive data.",
+                    "Avoid using third party session replay analytic scripts.",
+                    "Low", 
+                    "Firm"))
 
         if (len(issues) == 0):
             return None
@@ -92,13 +95,16 @@ class BurpExtender(IBurpExtender, IScannerCheck):
 
 # class implementing IScanIssue to hold our custom scan issue details
 class CustomScanIssue (IScanIssue):
-    def __init__(self, httpService, url, httpMessages, name, detail, severity):
+    def __init__(self, httpService, url, httpMessages, name, detail, background, remediationBackground, severity, confidence):
         self._httpService = httpService
         self._url = url
         self._httpMessages = httpMessages
         self._name = name
         self._detail = detail
+        self._background = background
+        self._remediationBackground = remediationBackground
         self._severity = severity
+        self._confidence = confidence
 
     def getUrl(self):
         return self._url
@@ -113,10 +119,10 @@ class CustomScanIssue (IScanIssue):
         return self._severity
 
     def getConfidence(self):
-        return "Firm"
+        return self._confidence
 
     def getIssueBackground(self):
-        pass
+        return self._background
 
     def getRemediationBackground(self):
         pass
@@ -125,7 +131,7 @@ class CustomScanIssue (IScanIssue):
         return self._detail
 
     def getRemediationDetail(self):
-        pass
+        return self._remediationBackground
 
     def getHttpMessages(self):
         return self._httpMessages

@@ -72,8 +72,8 @@ class BurpExtender(IBurpExtender, IScannerCheck):
                     baseRequestResponse.getHttpService(),
                     self._helpers.analyzeRequest(baseRequestResponse).getUrl(),
                     [self._callbacks.applyMarkers(baseRequestResponse, None, matches)],
-                    "Session Tracking Include",
-                    "Scripts were included from the following domain: " + source,
+                    "Session tracking include",
+                    "The included scripts could be used to perform session replay attacks, whilst leaking sensitive data. Scripts were included from the following domain: " + source,
                     "Low"))
 
         if (len(issues) == 0):
